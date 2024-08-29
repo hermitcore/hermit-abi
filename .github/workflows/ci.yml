@@ -117,6 +117,7 @@ jobs:
         include:
           - arch: x86_64
             packages: qemu-system-x86
+            flags: --accel --sudo
           - arch: aarch64
             packages: qemu-system-aarch64
           - arch: riscv64
@@ -148,6 +149,6 @@ jobs:
             .
             kernel
             kernel/hermit-builtins
-      - run: cargo xtask ci qemu --arch ${{ matrix.arch }} --profile ${{ matrix.profile }} --package rusty_demo
-      - run: cargo xtask ci qemu --arch ${{ matrix.arch }} --profile ${{ matrix.profile }} --package httpd --features ci,hermit/dhcpv4 --netdev virtio-net-pci
+      - run: cargo xtask ci qemu --arch ${{ matrix.arch }} --profile ${{ matrix.profile }} ${{ matrix.flags }} --package rusty_demo
+      - run: cargo xtask ci qemu --arch ${{ matrix.arch }} --profile ${{ matrix.profile }} ${{ matrix.flags }} --package httpd --features ci,hermit/dhcpv4 --netdev virtio-net-pci
         if: matrix.arch != 'riscv64'
